@@ -26,56 +26,69 @@ ui_print " "
 
 Android=`getprop ro.build.version.release`
 
-if [ $Android = 12 ]; then
-    ui_print " Android 12 detected"
-    ui_print " "
-    cp -rf $MODPATH/files/plugin/SystemUIPlugin.apk $MODPATH/system/app/MiuiSystemUIPlugin
-if [ $Android = 13 ]; then
-    ui_print " Android 13 detected"
-    ui_print " "
-    cp -rf $MODPATH/files/plugin/SystemUIPlugin.apk $MODPATH/system/product/app/MiuiSystemUIPlugin
-if [ $Android = 14 ]; then
-    ui_print " Android 14 detected"
-    ui_print " "
-    cp -rf $MODPATH/files/plugin/SystemUIPlugin.apk $MODPATH/system/product/app/MiuiSystemUIPlugin
-else
-{
+case "$Android" in
+  12)
+    ui_print "Android 12 detected"
+    cp -rf "$MODPATH/files/plugin/SystemUIPlugin.apk" "$MODPATH/system/app/MiuiSystemUIPlugin"
+    ;;
+  13|14)  # Combines the conditions for versions 13 and 14
+    ui_print "Android 13/14 detected"
+    cp -rf "$MODPATH/files/plugin/SystemUIPlugin.apk" "$MODPATH/system/product/app/MiuiSystemUIPlugin"
+    ;;
+  *)
     ui_print "Android Version Incompatibility, check on Github for more informations about installation method"
     ui_print "Exiting the installation to avoid crashing the system"
-    sleep 1
     exit 1
-}
-
-fi
+    ;;
+esac
 
 ui_print "- Uninstalling Updates..."
-    pm uninstall-system-updates miui.systemui.plugin
+pm uninstall-system-updates miui.systemui.plugin
 
 TMPAPKDIR=/data/local/tmp
-cp -rf $MODPATH/files/plugin/SystemUIPlugin.apk $TMPAPKDIR
-result=$(pm install ${TMPAPKDIR}/SystemUIPlugin.apk 2>&1)
-cp -rf $MODPATH/system/app/PluginExtension/PluginExtension.apk $TMPAPKDIR
-result2=$(pm install ${TMPAPKDIR}/PluginExtension.apk 2>&1)
-cp -rf $MODPATH/system/app/Cast/Cast.apk $TMPAPKDIR
-result2=$(pm install ${TMPAPKDIR}/Cast.apk 2>&1)
 
-if [ $result = Success ] && [ $result2 = Success ];then
+# Copiar e instalar o primeiro APK
+cp -rf "$MODPATH/files/plugin/SystemUIPlugin.apk" "$TMPAPKDIR"
+result1=$(pm install "${TMPAPKDIR}/SystemUIPlugin.apk" 2>&1)
+
+if [ "$result1" != "Success" ]; then
+    ui_print "Error installing SystemUIPlugin.apk: $result1"
+    exit 1
+fi
+
+# Copiar e instalar o segundo APK
+cp -rf "$MODPATH/system/app/PluginExtension/PluginExtension.apk" "$TMPAPKDIR"
+result2=$(pm install "${TMPAPKDIR}/PluginExtension.apk" 2>&1)
+
+if [ "$result2" != "Success" ]; then
+    ui_print "Error installing PluginExtension.apk: $result2"
+    ui_print "You can ignore that ERROR"
+fi
+
+# Copiar e instalar o terceiro APK
+cp -rf "$MODPATH/system/app/Cast/Cast.apk" "$TMPAPKDIR"
+result3=$(pm install "${TMPAPKDIR}/Cast.apk" 2>&1)
+
+if [ "$result3" != "Success" ]; then
+    ui_print "Error installing Cast.apk: $result3"
+    exit 1
+fi
+
+# Verificar se a verificação de assinatura foi desabilitada
+if [[ "$result1" == "Success" &&  "$result3" == "Success" ]]; then
     ui_print " "
-    ui_print " Signature verification disablement detected"
-    ui_print " proceeding to install as an update."
-    ui_print " Installed successfully."
-    ui_print " Now you can use it without restarting your device."
+    ui_print " Desativação da verificação de assinatura detectada"
+    ui_print " Prosseguindo com a instalação como atualização."
+    ui_print " Instalado com sucesso."
+    ui_print " Agora você pode usá-lo sem reiniciar o dispositivo."
     ui_print " "
     ui_print " "
 else
-{
     ui_print " "
-    ui_print " Signature verification disablement not detected"
-    ui_print " Proceeding with normal installation."
+    ui_print " Desativação da verificação de assinatura não detectada"
+    ui_print " Prosseguindo com a instalação normal."
     ui_print " "
     ui_print " "
-}
-
 fi
   
 }
