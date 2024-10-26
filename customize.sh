@@ -18,11 +18,19 @@ install_files() {
 ui_print " For Android 12/13/14! "
 ui_print " "
 ui_print " Signature verification must be disabled"
-ui_print " mandatory for MIUI 14 users based on" 
+ui_print " mandatory for MIUI 14 users based on"
 ui_print " Android 12/13/14; otherwise, the module will"
 ui_print " not work. "
 ui_print " "
-ui_print " "
+if [ -n "$KSU" ]; then
+    ui_print "[*] Ambiente: KernelSU"
+    ui_print "[*] Versão Do Modulo para KernelSU: $KSU_VER"
+    ui_print "[*] Versão Do KernelSU: ${KSU_VER_CODE}" 
+else
+    ui_print "[*] Ambiente: Magisk"
+    ui_print "[*] Versão Do Modulo para Magisk: $MAGISK_VER"
+    ui_print "[*] Versão Do Código: ${MAGISK_VER_CODE}" 
+fi
 
 Android=`getprop ro.build.version.release`
 
