@@ -29,7 +29,7 @@ if [ -n "$KSU" ]; then
 else
     ui_print "[*] Ambiente: Magisk"
     ui_print "[*] Versão Do Modulo para Magisk: $MAGISK_VER"
-    ui_print "[*] Versão Do Código: ${MAGISK_VER_CODE}" 
+    ui_print "[*] Versão Do Magisk: ${MAGISK_VER_CODE}" 
 fi
 
 Android=`getprop ro.build.version.release`
