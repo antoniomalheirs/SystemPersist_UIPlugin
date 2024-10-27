@@ -102,7 +102,6 @@ install_files() {
 
 cleanup() {
 	rm -rf $MODPATH/files 2>/dev/null
-	ui_print "- Deleting package cache files"
     rm -rf /data/resource-cache/*
     rm -rf /data/system/package_cache/*
     rm -rf /cache/*
@@ -120,7 +119,6 @@ run_install() {
 	ui_print " "
 	cleanup
 	sleep 1
-	ui_print "- Removing any Plugin folder to avoid issues"
 }
 
 set_permissions() {
