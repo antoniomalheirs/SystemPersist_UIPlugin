@@ -14,17 +14,16 @@ REPLACE="
 "
 
 install_files() {
-  ui_print " "
   ui_print "**********************************"
   ui_print "*     SystemPersist_UIPlugin     *"
   ui_print "**********************************"
   ui_print " "
-  ui_print " For Android 12/13/14! "
+  ui_print "For Android 12/13/14!"
   ui_print " "
-  ui_print " Signature verification must be disabled"
-  ui_print " mandatory for MIUI 14 users based on"
-  ui_print " Android 12/13/14; otherwise, the module will"
-  ui_print " not work. "
+  ui_print "Signature verification must be disabled"
+  ui_print "mandatory for MIUI 14 users based on"
+  ui_print "Android 12/13/14; otherwise, the module will"
+  ui_print "not work."
   ui_print " "
   if [ -n "$KSU" ]; then
     ui_print "[*] Ambiente: KernelSU"
@@ -40,11 +39,13 @@ install_files() {
 
   case "$Android" in
   12)
+    ui_print " "
     ui_print "Android 12 detected"
     cp -rf "$MODPATH/files/plugin/SystemUIPlugin.apk" "$MODPATH/system/app/MiuiSystemUIPlugin"
     ui_print " "
     ;;
   13|14) 
+    ui_print " "
     ui_print "Android 13/14 detected"
     cp -rf "$MODPATH/files/plugin/SystemUIPlugin.apk" "$MODPATH/system/product/app/MiuiSystemUIPlugin"
     ui_print " "
@@ -56,7 +57,7 @@ install_files() {
     ;;
   esac 
   
-  ui_print "- Uninstalling Updates..."
+  ui_print "[*] Uninstalling Updates..."
   pm uninstall-system-updates miui.systemui.plugin
 
   TMPAPKDIR=/data/local/tmp
@@ -76,8 +77,9 @@ install_files() {
 
   if [ "$result2" != "Success" ]; then
     ui_print " "
-    ui_print "Error installing PluginExtension.apk: $result2"
-    ui_print "You can ignore that ERROR"
+    ui_print "Error installing PluginExtension - $result2"
+    ui_print " "
+    ui_print "[*] You can ignore that ERROR"
     ui_print " "
   fi
 
@@ -93,16 +95,16 @@ install_files() {
   # Verificar se a verificação de assinatura foi desabilitada
   if [[ "$result1" == "Success" &&  "$result3" == "Success" ]]; then
     ui_print " "
-    ui_print " Desativação da verificação de assinatura detectada"
-    ui_print " Prosseguindo com a instalação como atualização."
-    ui_print " Instalado com sucesso."
-    ui_print " Agora você pode usá-lo sem reiniciar o dispositivo."
+    ui_print "Desativação da verificação de assinatura detectada"
+    ui_print "Prosseguindo com a instalação como atualização."
+    ui_print "Instalado com sucesso."
+    ui_print "Agora você pode usá-lo sem reiniciar o dispositivo."
     ui_print " "
     ui_print " "
   else
     ui_print " "
-    ui_print " Desativação da verificação de assinatura não detectada"
-    ui_print " Prosseguindo com a instalação normal."
+    ui_print "Desativação da verificação de assinatura não detectada"
+    ui_print "Prosseguindo com a instalação normal."
     ui_print " "
     ui_print " "
   fi
@@ -118,8 +120,6 @@ cleanup() {
 
 run_install() {
   unzip -o "$ZIPFILE" -x 'META-INF/*' -d $MODPATH >&2
-  ui_print " "
-  ui_print "[*] Installing files"
   ui_print " "
   install_files
   sleep 1
