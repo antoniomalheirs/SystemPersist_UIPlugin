@@ -1,6 +1,6 @@
 {
-    "version": "v1.0.0",
-    "versionCode": 100,
-    "zipUrl": "https://github.com/antoniomalheirs/SystemPersist_UIPlugin/releases/download/V1.0.0/SystemPersist_UIPlugin.zip",
+    "version": "v1.0.1",
+    "versionCode": 101,
+    "zipUrl": "https://github.com/antoniomalheirs/SystemPersist_UIPlugin/releases/download/V1.0.1/SystemPersist_UIPlugin.zip",
     "changelog": "https://raw.githubusercontent.com/antoniomalheirs/SystemPersist_UIPlugin/main/update_metada/CHANGELOG.md"
 }
