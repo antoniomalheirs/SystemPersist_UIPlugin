@@ -1,7 +1,7 @@
 id=SystemPersist_UIPlugin
 name=SystemPersist_UIPlugin
-version=1.0.1
-versionCode=101
+version=1.0.2
+versionCode=102
 author=SentinelData
 description=Change System_UI_Plugin for custom modded version for KernelSU and Magisk!
 updateJson=https://raw.githubusercontent.com/antoniomalheirs/SystemPersist_UIPlugin/main/update_metada/update.json
